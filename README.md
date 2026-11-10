@@ -1,6 +1,6 @@
 # RAID Simulation and Performance Analysis
 
-Language: **Python 3.13** (+ NumPy for fast XOR, pure-Python fallback included)
+Language: **Python 3.13** 
 Platform: Linux 6.18, 4 vCPU, ext4 on one virtual block device (`/dev/vda`)
 
 | File | Purpose |
