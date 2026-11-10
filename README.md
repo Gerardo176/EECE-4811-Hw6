@@ -12,7 +12,7 @@ Platform: Linux 6.18, 4 vCPU, ext4 on one virtual block device (`/dev/vda`)
 | `raid1_read_policy.py` | Diagnostic for the RAID 1 sequential-read result |
 | `results/` | Raw data, logs, summaries; `results/v1_unoptimized/` = first run (see §4.5) |
 
-Run it:
+Run with:
 
 ```bash
 python3 test_raid.py
