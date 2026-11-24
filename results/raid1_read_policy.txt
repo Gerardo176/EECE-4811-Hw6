@@ -1,0 +1,4 @@
+policy               read MB/s (mean ± sd of 3)
+round-robin             99.0 ± 4.1
+single-disk           1633.7 ± 71.0
+chunked-RR (1 MB)     1276.0 ± 65.4
