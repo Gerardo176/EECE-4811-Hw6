@@ -46,6 +46,21 @@ def xor_bytes(*chunks) -> bytes:
     return acc.to_bytes(n, "little")
 
 
+# Positional I/O. os.pread/os.pwrite exist on Linux/macOS but not on Windows;
+# there we fall back to lseek + read/write. That is safe because every call is
+# made while holding the disk's lock.
+if hasattr(os, "pread"):
+    _pread, _pwrite = os.pread, os.pwrite
+else:
+    def _pread(fd, n, off):
+        os.lseek(fd, off, os.SEEK_SET)
+        return os.read(fd, n)
+
+    def _pwrite(fd, data, off):
+        os.lseek(fd, off, os.SEEK_SET)
+        return os.write(fd, data)
+
+
 class Disk:
     """A simulated physical disk backed by a regular file."""
 
@@ -54,7 +69,9 @@ class Disk:
         self.block_size = block_size
         self.num_blocks = num_blocks
         # Fresh, zero-filled (sparse) file of the right size.
-        self.fd = os.open(path, os.O_RDWR | os.O_CREAT | os.O_TRUNC, 0o644)
+        # O_BINARY is required on Windows (otherwise text mode mangles bytes).
+        flags = os.O_RDWR | os.O_CREAT | os.O_TRUNC | getattr(os, "O_BINARY", 0)
+        self.fd = os.open(path, flags, 0o644)
         os.ftruncate(self.fd, num_blocks * block_size)
         self.reads = 0
         self.writes = 0
@@ -65,7 +82,7 @@ class Disk:
     def read_block(self, offset: int) -> bytes:
         with self.lock:
             self.reads += 1
-            data = os.pread(self.fd, self.block_size, offset * self.block_size)
+            data = _pread(self.fd, self.block_size, offset * self.block_size)
         if len(data) < self.block_size:          # should not happen (file pre-sized)
             data += b"\0" * (self.block_size - len(data))
         return data
@@ -75,7 +92,7 @@ class Disk:
         disk is released (i.e. the request is not "done" until durable)."""
         with self.lock:
             self.writes += 1
-            os.pwrite(self.fd, data, offset * self.block_size)
+            _pwrite(self.fd, data, offset * self.block_size)
             if sync:
                 os.fsync(self.fd)
 
@@ -84,7 +101,8 @@ class Disk:
 
     def drop_cache(self) -> None:
         """Ask the kernel to evict this file's (clean) pages from the page
-        cache so later reads hit the storage device instead of RAM."""
+        cache so later reads hit the storage device instead of RAM.
+        (Not available on Windows: there reads may be served from RAM.)"""
         os.fsync(self.fd)
         if hasattr(os, "posix_fadvise"):
             os.posix_fadvise(self.fd, 0, 0, os.POSIX_FADV_DONTNEED)
