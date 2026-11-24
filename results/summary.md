@@ -1,0 +1,153 @@
+Benchmark summary
+292 runs; verification errors + bad parity stripes across all runs: 0
+Values are mean ± sample std-dev over repetitions. MB/s is logical (user) data throughput.
+Storage efficiency (E1 logical data set, 4 KB blocks)
+Level	Logical MB	Physical MB on 5 disks	Efficiency	Phys. writes / logical write	Phys. reads / logical write (RMW)
+RAID0	100	100	100%	1.00	0.00
+RAID1	100	500	20%	5.00	0.00
+RAID4	100	125	80%	2.00	2.00
+RAID5	100	125	80%	2.00	2.00
+E1: Main: 100 MB, 4 KB blocks, sequential vs random, fsync at end
+Repetitions per cell: [5]
+Write MB/s
+pattern	RAID0	RAID1	RAID4	RAID5
+seq	486.4 ± 34.1	108.1 ± 1.2	294.1 ± 13.8	278.2 ± 26.6
+rand	468.8 ± 8.2	101.7 ± 4.3	73.7 ± 4.4	73.0 ± 0.9
+Read MB/s
+pattern	RAID0	RAID1	RAID4	RAID5
+seq	1456.2 ± 296.2	94.4 ± 2.1	1423.5 ± 283.7	1354.0 ± 201.8
+rand	140.5 ± 8.9	101.4 ± 9.1	136.0 ± 3.4	111.0 ± 4.5
+Write µs/block
+pattern	RAID0	RAID1	RAID4	RAID5
+seq	8.1 ± 0.6	36.1 ± 0.4	13.3 ± 0.6	14.1 ± 1.4
+rand	8.3 ± 0.1	38.5 ± 1.6	53.1 ± 2.9	53.5 ± 0.6
+Read µs/block
+pattern	RAID0	RAID1	RAID4	RAID5
+seq	2.8 ± 0.6	41.4 ± 0.9	2.9 ± 0.8	2.9 ± 0.5
+rand	27.9 ± 1.8	38.8 ± 3.4	28.7 ± 0.7	35.2 ± 1.4
+E2: Block-size sweep (100 MB)
+Repetitions per cell: [3]
+Write MB/s
+block size, pattern	RAID0	RAID1	RAID4	RAID5
+512, seq	71.6 ± 1.6	16.5 ± 0.2	66.4 ± 1.2	64.0 ± 1.6
+512, rand	63.7 ± 1.7	14.8 ± 0.3	36.0 ± 0.8	36.9 ± 0.1
+4096, seq	478.9 ± 40.1	112.0 ± 6.5	315.6 ± 1.3	298.4 ± 18.1
+4096, rand	473.7 ± 19.3	103.6 ± 3.1	73.8 ± 1.1	71.7 ± 0.9
+65536, seq	1060.2 ± 40.1	238.4 ± 5.3	582.8 ± 33.8	611.3 ± 18.3
+65536, rand	1125.4 ± 14.8	242.0 ± 5.0	286.2 ± 10.7	278.3 ± 5.4
+Read MB/s
+block size, pattern	RAID0	RAID1	RAID4	RAID5
+512, seq	396.1 ± 7.4	327.2 ± 5.8	372.8 ± 38.8	345.7 ± 11.1
+512, rand	90.5 ± 2.0	27.0 ± 0.5	91.8 ± 5.2	82.5 ± 7.9
+4096, seq	1644.7 ± 68.5	97.4 ± 1.3	1548.9 ± 110.9	1488.4 ± 18.6
+4096, rand	134.6 ± 10.8	97.5 ± 1.6	135.1 ± 1.8	111.8 ± 1.0
+65536, seq	2744.1 ± 571.2	673.0 ± 22.1	2796.1 ± 963.1	2969.0 ± 147.7
+65536, rand	759.3 ± 29.0	802.9 ± 75.1	747.1 ± 21.6	753.6 ± 104.2
+Write µs/block
+block size, pattern	RAID0	RAID1	RAID4	RAID5
+512, seq	6.8 ± 0.2	29.5 ± 0.4	7.4 ± 0.1	7.6 ± 0.2
+512, rand	7.7 ± 0.2	33.0 ± 0.6	13.6 ± 0.3	13.2 ± 0.0
+4096, seq	8.2 ± 0.7	35.0 ± 2.1	12.4 ± 0.1	13.1 ± 0.8
+4096, rand	8.3 ± 0.3	37.7 ± 1.1	52.9 ± 0.8	54.5 ± 0.7
+65536, seq	59.0 ± 2.2	262.2 ± 5.8	107.5 ± 6.1	102.3 ± 3.1
+65536, rand	55.5 ± 0.7	258.3 ± 5.3	218.6 ± 8.0	224.6 ± 4.4
+Read µs/block
+block size, pattern	RAID0	RAID1	RAID4	RAID5
+512, seq	1.2 ± 0.0	1.5 ± 0.0	1.3 ± 0.1	1.4 ± 0.0
+512, rand	5.4 ± 0.1	18.1 ± 0.3	5.3 ± 0.3	6.0 ± 0.5
+4096, seq	2.4 ± 0.1	40.1 ± 0.5	2.5 ± 0.2	2.6 ± 0.0
+4096, rand	29.2 ± 2.3	40.1 ± 0.7	28.9 ± 0.4	35.0 ± 0.3
+65536, seq	23.5 ± 5.3	92.9 ± 3.0	24.6 ± 10.0	21.1 ± 1.1
+65536, rand	82.4 ± 3.1	78.3 ± 7.6	83.7 ± 2.4	84.0 ± 11.4
+E3: Workload-size sweep (4 KB blocks)
+Repetitions per cell: [3]
+Write MB/s
+MB, pattern	RAID0	RAID1	RAID4	RAID5
+10, seq	402.4 ± 23.9	104.1 ± 4.8	306.8 ± 4.6	276.9 ± 48.7
+10, rand	465.8 ± 13.0	100.4 ± 5.1	73.5 ± 0.3	73.0 ± 2.4
+50, seq	495.9 ± 7.7	102.5 ± 7.1	287.6 ± 16.2	291.1 ± 11.2
+50, rand	446.5 ± 27.5	98.4 ± 1.1	69.2 ± 2.7	73.8 ± 0.9
+100, seq	466.5 ± 19.5	107.7 ± 3.3	280.1 ± 21.7	282.2 ± 20.3
+100, rand	439.1 ± 11.7	105.8 ± 5.3	72.9 ± 3.4	75.6 ± 3.8
+200, seq	480.3 ± 21.5	113.0 ± 2.9	297.9 ± 8.2	310.4 ± 4.3
+200, rand	492.7 ± 8.4	110.4 ± 0.6	73.0 ± 2.4	72.9 ± 1.8
+Read MB/s
+MB, pattern	RAID0	RAID1	RAID4	RAID5
+10, seq	1592.2 ± 46.0	102.5 ± 23.5	1594.9 ± 24.1	1353.1 ± 57.2
+10, rand	127.2 ± 6.0	89.2 ± 5.4	136.1 ± 4.4	108.1 ± 1.7
+50, seq	1527.1 ± 51.1	93.7 ± 2.3	1404.6 ± 199.6	1313.6 ± 264.8
+50, rand	138.9 ± 8.1	94.2 ± 2.6	135.6 ± 3.7	110.4 ± 1.1
+100, seq	1550.7 ± 117.1	98.5 ± 4.3	1546.8 ± 73.9	1244.7 ± 298.0
+100, rand	132.0 ± 8.6	95.0 ± 0.8	139.8 ± 5.0	109.5 ± 3.7
+200, seq	1642.7 ± 29.0	95.1 ± 2.0	1292.1 ± 209.6	1408.4 ± 131.6
+200, rand	137.1 ± 4.1	93.0 ± 1.5	142.8 ± 5.2	111.2 ± 3.9
+Write µs/block
+MB, pattern	RAID0	RAID1	RAID4	RAID5
+10, seq	9.7 ± 0.6	37.6 ± 1.8	12.7 ± 0.2	14.4 ± 2.8
+10, rand	8.4 ± 0.2	39.0 ± 2.0	53.2 ± 0.2	53.5 ± 1.7
+50, seq	7.9 ± 0.1	38.2 ± 2.7	13.6 ± 0.8	13.4 ± 0.5
+50, rand	8.8 ± 0.5	39.7 ± 0.4	56.5 ± 2.2	52.9 ± 0.6
+100, seq	8.4 ± 0.3	36.3 ± 1.1	14.0 ± 1.1	13.9 ± 1.0
+100, rand	8.9 ± 0.2	37.0 ± 1.9	53.6 ± 2.4	51.7 ± 2.6
+200, seq	8.1 ± 0.4	34.6 ± 0.9	13.1 ± 0.4	12.6 ± 0.2
+200, rand	7.9 ± 0.1	35.4 ± 0.2	53.5 ± 1.7	53.6 ± 1.3
+Read µs/block
+MB, pattern	RAID0	RAID1	RAID4	RAID5
+10, seq	2.5 ± 0.1	39.3 ± 8.0	2.4 ± 0.0	2.9 ± 0.1
+10, rand	30.8 ± 1.5	43.9 ± 2.6	28.7 ± 0.9	36.1 ± 0.6
+50, seq	2.6 ± 0.1	41.7 ± 1.0	2.8 ± 0.4	3.1 ± 0.7
+50, rand	28.2 ± 1.6	41.5 ± 1.2	28.8 ± 0.8	35.4 ± 0.4
+100, seq	2.5 ± 0.2	39.7 ± 1.8	2.5 ± 0.1	3.3 ± 0.8
+100, rand	29.7 ± 1.9	41.1 ± 0.3	28.0 ± 1.0	35.7 ± 1.2
+200, seq	2.4 ± 0.0	41.1 ± 0.9	3.1 ± 0.5	2.8 ± 0.3
+200, rand	28.5 ± 0.8	42.0 ± 0.7	27.4 ± 1.0	35.2 ± 1.2
+E4: Synchronous writes: fsync every physical write (8 MB, 4 KB)
+Repetitions per cell: [3]
+Write MB/s
+pattern	RAID0	RAID1	RAID4	RAID5
+seq	38.4 ± 1.3	8.4 ± 0.6	17.3 ± 0.8	19.5 ± 2.8
+rand	41.2 ± 6.8	8.1 ± 0.4	15.7 ± 0.7	15.3 ± 1.2
+Read MB/s
+pattern	RAID0	RAID1	RAID4	RAID5
+seq	1556.7 ± 46.8	98.1 ± 7.4	1488.8 ± 62.1	1313.0 ± 39.0
+rand	134.2 ± 2.1	93.9 ± 8.0	120.8 ± 4.8	103.4 ± 6.5
+Write µs/block
+pattern	RAID0	RAID1	RAID4	RAID5
+seq	101.8 ± 3.5	468.1 ± 29.8	226.2 ± 10.5	203.2 ± 31.2
+rand	96.3 ± 14.4	485.9 ± 24.7	248.3 ± 10.5	256.0 ± 19.7
+Read µs/block
+pattern	RAID0	RAID1	RAID4	RAID5
+seq	2.5 ± 0.1	40.0 ± 3.0	2.6 ± 0.1	3.0 ± 0.1
+rand	29.1 ± 0.4	41.8 ± 3.5	32.4 ± 1.3	37.9 ± 2.4
+E6: Concurrent random small writes, fsync each write (8 MB, 4 KB)
+Repetitions per cell: [3]
+Write MB/s
+threads	RAID0	RAID1	RAID4	RAID5
+1	42.9 ± 4.3	7.8 ± 0.5	15.4 ± 0.3	14.3 ± 0.9
+4	63.0 ± 1.1	12.5 ± 1.9	16.0 ± 0.6	19.1 ± 1.0
+8	59.5 ± 12.0	14.7 ± 0.5	16.1 ± 0.9	17.6 ± 0.9
+Read MB/s
+threads	RAID0	RAID1	RAID4	RAID5
+1	145.9 ± 1.4	97.3 ± 6.2	124.6 ± 10.0	107.9 ± 3.5
+4	147.4 ± 29.7	98.6 ± 7.8	146.6 ± 27.4	106.6 ± 6.2
+8	136.7 ± 24.4	95.3 ± 1.2	131.6 ± 13.2	110.0 ± 0.7
+Write µs/block
+threads	RAID0	RAID1	RAID4	RAID5
+1	91.7 ± 9.7	505.2 ± 30.8	254.5 ± 5.4	273.7 ± 17.5
+4	62.0 ± 1.1	318.7 ± 53.4	244.9 ± 9.9	204.4 ± 11.1
+8	67.7 ± 15.4	266.5 ± 8.8	243.3 ± 14.3	221.8 ± 11.6
+Read µs/block
+threads	RAID0	RAID1	RAID4	RAID5
+1	26.8 ± 0.3	40.3 ± 2.6	31.5 ± 2.5	36.2 ± 1.2
+4	27.2 ± 5.1	39.8 ± 3.0	27.2 ± 4.6	36.7 ± 2.1
+8	29.1 ± 4.7	41.0 ± 0.5	29.9 ± 3.1	35.5 ± 0.2
+E5: RAID 4/5 full-stripe vs read-modify-write sequential writes (4 KB)
+Level	sync	size MB	Method	Write MB/s	Phys reads/blk	Phys writes/blk
+RAID4	each	8	RMW per block	17.6 ± 0.4	2.00	2.00
+RAID4	each	8	full-stripe	29.9 ± 2.2	0.00	1.25
+RAID4	end	100	RMW per block	310.0 ± 11.9	2.00	2.00
+RAID4	end	100	full-stripe	358.3 ± 1.5	0.00	1.25
+RAID5	each	8	RMW per block	20.2 ± 1.3	2.00	2.00
+RAID5	each	8	full-stripe	28.6 ± 1.6	0.00	1.25
+RAID5	end	100	RMW per block	315.9 ± 3.8	2.00	2.00
+RAID5	end	100	full-stripe	366.6 ± 15.1	0.00	1.25
